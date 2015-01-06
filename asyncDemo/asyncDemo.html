@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AsyncDemo</title>
+
+
+
+  <script src="../interpreter.js"></script>
+  <script src="../acorn.js"></script>
+  <script src="../nativeHelpers.js"></script>
+  <script src="../asyncHelpers.js"></script>
+
+
+</head>
+
+<body>
+  <div>
+    <textarea id='codeToInterpret' cols="80" rows="20" >
+var processId = $processId;
+var x=0;
+var y=1;
+var z = null;
+
+var countTo = 1000;
+
+for (var i = 2; i <= countTo; i++)
+{
+    if (i === countTo / 10) {
+      native.waitForClick(processId, asyncWait);
+    }
+    native.updateProcessData(processId, i/countTo, z)
+    z = x + y;
+    x = y;
+    y = z;
+}
+    </textarea>
+  </div>
+  <button onclick='runProcesses()'>Run ye horses!</button>
+
+  <div id='processValue0'></div>
+  <div id='processValue1'></div>
+  <div id='processValue2'></div>
+  <div id='processValue3'></div>
+  <div id='processValue4'></div>
+
+</body>
+<script src="asyncDemo.js"></script>
+</html>
