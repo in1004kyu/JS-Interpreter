@@ -106,14 +106,6 @@ for (var i = 0; i < countTo; i++)
 
     </div>
       <div>
-        <div>
-          <select id="codeTemplates" onchange="view.copyFromTemplate(this.value)">
-            <option>Select from Template</option>
-            <option value="codeFibonacci">Fibonacci</option>
-            <option value="codeCount">Count</option>
-            <option value="codeCountAndWait">Count and wait</option>
-          </select>
-        </div>
         <textarea id='codeToInterpret' cols="80" rows="20" onchange="view.updateCode()">
         </textarea>
       </div>

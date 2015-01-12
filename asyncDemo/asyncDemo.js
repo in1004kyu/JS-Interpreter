@@ -16,21 +16,22 @@ window.view = {
     var processNameEl = document.createElement('a');
     processNameEl.className = 'processName';
     processNameEl.href = '#';
-    processNameEl.innerHTML = 'process' + index;
+    processNameEl.innerHTML = 'thread' + index;
     processNameEl.onclick = this.selectProcess.bind(this, index);
     document.getElementById('processDefs').appendChild(processNameEl);
+  },
+  init: function () {
+    var defaultCode = document.getElementById('codePolygon').innerHTML;
+    view.addProcess(document.getElementById('codeCount').innerHTML);
+    view.addProcess(defaultCode);
+    view.addProcess(defaultCode);
+    view.addProcess(defaultCode);
+    view.addProcess(defaultCode);
   }
 };
 
 
-var defaultCode = document.getElementById('codePolygon').innerHTML;
-view.addProcess(document.getElementById('codeCount').innerHTML);
-view.addProcess(defaultCode);
-view.addProcess(defaultCode);
-view.addProcess(defaultCode);
-view.addProcess(defaultCode);
-
-
+view.init();
 
 function createInterpreterInitializer(processId) {
 
