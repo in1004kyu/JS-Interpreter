@@ -5,19 +5,62 @@
   <title>AsyncDemo</title>
 
 
-
+  <script src="jquery-1.11.2.min.js"></script>
   <script src="../interpreter.js"></script>
   <script src="../acorn.js"></script>
   <script src="../nativeHelpers.js"></script>
   <script src="../asyncHelpers.js"></script>
 
+  <style>
+    #processes {
+      position: absolute;
+    }
+
+    .process {
+        width: 100px;
+        height: 50px;
+        position: absolute;
+        border: 1px solid black;
+
+    }
+
+    .processTitle {
+      font-weight: bold;
+      margin-right: 10px;
+
+    }
+
+    .processValue {
+      color: blue;
+    }
+
+    .processName {
+      margin: 5px;
+    }
+
+  </style>
+
 
 </head>
 
 <body>
-  <div>
-    <textarea id='codeToInterpret' cols="80" rows="20" >
-var processId = $processId;
+<script type="code/template" id="codePolygon">
+console.log('starting process', turtle.processId);
+turtle.forward(turtle.processId * 110, 200, asyncWait);
+var countTo = turtle.processId + 2;
+
+
+for (var i = 0; i < countTo; i++) {
+  turtle.setText(i+1);
+  turtle.right(360/countTo, 150, asyncWait);
+  turtle.forward(100, 100, asyncWait);
+}
+
+turtle.waitForClick(asyncWait);
+turtle.rotate(0, 1000, asyncWait);
+</script>
+
+  <script type="code/template" id="codeFibonacci">
 var x=0;
 var y=1;
 var z = null;
@@ -27,23 +70,61 @@ var countTo = 1000;
 for (var i = 2; i <= countTo; i++)
 {
     if (i === countTo / 10) {
-      native.waitForClick(processId, asyncWait);
+      native.waitForClick(asyncWait);
     }
-    native.updateProcessData(processId, i/countTo, z)
+    native.updateProcessData(z, i/countTo)
     z = x + y;
     x = y;
     y = z;
 }
-    </textarea>
+  </script>
+
+  <script type="code/template" id="codeCount">
+var countTo = 1000;
+
+for (var i = 0; i < countTo; i++)
+{
+    turtle.setText(i, i/countTo)
+}
+  </script>  
+
+  <script type="code/template" id="codeCountAndWait">
+var countTo = 1000;
+
+for (var i = 0; i < countTo; i++)
+{
+    if (i === countTo / 10) {
+      native.waitForClick(asyncWait);
+    }
+    native.updateProcessData(i, i/countTo)
+}
+  </script>
+
+
+  <div>
+    <div id="processDefs">
+
+    </div>
+      <div>
+        <div>
+          <select id="codeTemplates" onchange="view.copyFromTemplate(this.value)">
+            <option>Select from Template</option>
+            <option value="codeFibonacci">Fibonacci</option>
+            <option value="codeCount">Count</option>
+            <option value="codeCountAndWait">Count and wait</option>
+          </select>
+        </div>
+        <textarea id='codeToInterpret' cols="80" rows="20" onchange="view.updateCode()">
+        </textarea>
+      </div>
+
+
+    </div>
+
+
   </div>
-  <button onclick='runProcesses()'>Run ye horses!</button>
-
-  <div id='processValue0'></div>
-  <div id='processValue1'></div>
-  <div id='processValue2'></div>
-  <div id='processValue3'></div>
-  <div id='processValue4'></div>
-
+  <button onclick='runProcesses()' id="run">Run ye horses!</button>
+  <div id="processes"></div>
 </body>
 <script src="asyncDemo.js"></script>
 </html>
