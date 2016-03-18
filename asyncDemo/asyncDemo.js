@@ -114,17 +114,25 @@ function createInterpreterInitializer(processId) {
       helper.nativeValueToInterpreter(window.console));
   };
 }
-
+var runner;
+var scheduler;
+window.runLastProcesss = function() {
+  //scheduler.submit(runner, )
+  var processId = view.codes.length-1;
+  var code = view.codes[processId];
+  runner = new AsyncInterpreterRunner(code, createInterpreterInitializer(processId));
+  scheduler.submit(runner, 'process' + processId);
+}
 
 window.runProcesses = function () {
   document.getElementById('processes').innerHTML = '';
-  var scheduler = new AsyncScheduler();
+  scheduler = new AsyncScheduler();
 
 
-  for (var i = 0; i < view.codes.length; i++) {
+  for (var i = 0; i < view.codes.length-1; i++) {
     processId = i;
     var code = view.codes[i];
-    var runner = new AsyncInterpreterRunner(code, createInterpreterInitializer(processId));
+    runner = new AsyncInterpreterRunner(code, createInterpreterInitializer(processId));
     scheduler.submit(runner, 'process' + processId);
   }
 
